@@ -152,12 +152,13 @@ document.addEventListener('DOMContentLoaded', ()=> {
 	// CLASS
 
 	class MenuItem{
-		constructor(img, alt, title, descr, price, parentSelectoor) {
+		constructor(img, alt, title, descr, price, parentSelectoor, ...classes) {
 			this.img						= img;
 			this.alt						= alt;
 			this.title					= title;
 			this.descr					= descr;
 			this.price					= price;
+			this.classes				= classes;
 			this.parent					= document.querySelector(parentSelectoor);
 			this.transfer				= 27;
 			this.changeTooUAH();
@@ -169,7 +170,12 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
 		bildDivMenu() {
 			const divMenuItem			= document.createElement('div');
-			divMenuItem.classList.add('menu__item');
+			if (this.classes.length === 0) {
+				this.classes = ['menu__item'];
+				divMenuItem.classList.add(this.classes);
+			} else {
+				this.classes.forEach(className => divMenuItem.classList.add(className));
+			}
 			divMenuItem.innerHTML	= `<img src=${this.img} alt=${this.alt}>
 												<h3 class="menu__item-subtitle">${this.title}</h3>
 												<div class="menu__item-descr">${this.descr}</div>
@@ -196,7 +202,8 @@ document.addEventListener('DOMContentLoaded', ()=> {
 		'Меню "Фитнес"',
 		'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
 		'6',
-		'.menu .container').bildDivMenu();
+		'.menu .container',
+		'menu__item').bildDivMenu();
 
 	new MenuItem(
 		'img/tabs/post.jpg',
@@ -204,5 +211,6 @@ document.addEventListener('DOMContentLoaded', ()=> {
 		'Меню "Постное"',
 		'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
 		'12',
-		'.menu .container').bildDivMenu();
+		'.menu .container',
+		'menu__item').bildDivMenu();
 });
