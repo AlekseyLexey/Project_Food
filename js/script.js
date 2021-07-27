@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
 	// TIMER
 
-	const deadLine = '2021-07-26';
+	const deadLine = '2021-08-10';
 
 	function getTimeRemaining(endtime) {
 		const timeLeft				= Date.parse(endtime) - Date.parse(new Date()),
@@ -99,7 +99,6 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
 	const modalTrigger				= document.querySelectorAll('[data-modal]'),
 			modalWindow					= document.querySelector('.modal'),
-			modalExit					= modalWindow.querySelector('[data-close]'),
 			modalSetTime				= setTimeout(modalOpen, 5000);
 
 
@@ -125,10 +124,8 @@ document.addEventListener('DOMContentLoaded', ()=> {
 		item.addEventListener('click', modalOpen);
 	});
 
-	modalExit.addEventListener('click', modalClose);
-
 	modalWindow.addEventListener('click', (e)=> {
-		if (e.target === modalWindow) {
+		if (e.target === modalWindow || e.target.getAttribute('data-close') == '') {
 			modalClose();
 		}
 	});
@@ -224,7 +221,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
 	const forms							= document.querySelectorAll('form'),
 			message						= {
-				loading: 'Загрузка...',
+				loading: 'img/form/spinner.svg',
 				success: 'Спасибо! Наша команда скоро свяжется с вами!',
 				failure: 'Охх... Что-то пошло не так...'
 			};
@@ -237,10 +234,13 @@ document.addEventListener('DOMContentLoaded', ()=> {
 		form.addEventListener('submit', (e)=> {
 			e.preventDefault();
 	
-			const statusMessage			= document.createElement('div');
-			statusMessage.classList.add('status');
-			statusMessage.textContent	= message.loading;
-			form.append(statusMessage);
+			const statusMessage			= document.createElement('img');
+			statusMessage.src = message.loading;
+			statusMessage.style.cssText = `
+				display: block;
+				margin: 0 auto;
+			`;
+			form.insertAdjacentElement('afterend', statusMessage);
 
 			const request					= new XMLHttpRequest();
 			request.open('POST', 'server.php');
@@ -256,23 +256,43 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
 			const jsonObject = JSON.stringify(object);
 
-			request.send(formData);
+			request.send(jsonObject);
 
 			request.addEventListener('load', ()=> {
 				if (request.status === 200) {
 					console.log(request.response);
-					statusMessage.textContent = message.success;
+					showModalMessage(message.success);
 					form.reset();
-					setTimeout(()=> {
-						statusMessage.remove();
-					}, 3000);
+					statusMessage.remove();
 				} else {
-					statusMessage.textContent = message.failure;
-					setTimeout(()=> {
-						statusMessage.remove();
-					}, 5000);
+					showModalMessage(message.failure);
+					statusMessage.remove();
 				}
 			});
 		});
+	}
+
+	function showModalMessage(message) {
+		const prevModalDiallog		= document.querySelector('.modal__dialog');
+
+		prevModalDiallog.classList.add('hide');
+		prevModalDiallog.classList.remove('show');
+		modalOpen();
+
+		const resultMessage			= document.createElement('div');
+		resultMessage.classList.add('modal__dialog');
+		resultMessage.innerHTML = `
+			<div class="modal__content">
+				<div data-close class="modal__close">×</div>
+				<div class="modal__title">${message}</div>
+			</div>
+		`;
+		modalWindow.append(resultMessage);
+		setTimeout(()=> {
+			resultMessage.remove();
+			prevModalDiallog.classList.add('show');
+			prevModalDiallog.classList.remove('hide');
+			modalClose();
+		}, 4000);
 	}
 });
