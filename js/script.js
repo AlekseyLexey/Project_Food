@@ -393,13 +393,17 @@ document.addEventListener('DOMContentLoaded', ()=> {
 		elem.style.transform = `translateX(-${ofsset}px)`;
 	}
 
+	function translationIntoNumber(string) {
+		return +string.replace(/\D/g, '');
+	}
+
 	nextButton.addEventListener('click', ()=> {
 		
-		if (ofsset == +width.slice(0, width.length - 2) * (slides.length - 1)) {
+		if (ofsset == translationIntoNumber(width) * (slides.length - 1)) {
 			ofsset = 0;
 			slideIndex = 1;
 		} else {
-			ofsset += +width.slice(0, width.length - 2);
+			ofsset += translationIntoNumber(width);
 			slideIndex++;
 		}
 
@@ -413,10 +417,10 @@ document.addEventListener('DOMContentLoaded', ()=> {
 	prevButton.addEventListener('click', ()=> {
 
 		if (ofsset == 0) {
-			ofsset = +width.slice(0, width.length - 2) * (slides.length - 1);
+			ofsset = translationIntoNumber(width) * (slides.length - 1);
 			slideIndex = slides.length;
 		} else {
-			ofsset -= +width.slice(0, width.length - 2);
+			ofsset -= translationIntoNumber(width);
 			slideIndex--;
 		}
 
@@ -433,7 +437,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
 			slideIndex = slideTo;
 
-			ofsset = +width.slice(0, width.length - 2) * (slideTo - 1);
+			ofsset = translationIntoNumber(width) * (slideTo - 1);
 			sliderTransform(sliderInner);
 
 			currentZeroSlide(currentSlide);
