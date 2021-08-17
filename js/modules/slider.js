@@ -1,4 +1,4 @@
-function slider() {
+function slider({slider, nextBtn, prevBtn, allSlide, currentCounter, totalCounter, inner, wrapper}) {
 	// Old Slider
 	
 	// if (slides.length < 10) {
@@ -44,14 +44,14 @@ function slider() {
 
 	// Slider + Dotts
 
-	const sliderAll					= document.querySelector('.offer__slider'),
-			prevButton					= document.querySelector('.offer__slider-prev'),
-			nextButton					= document.querySelector('.offer__slider-next'),
-			slides						= document.querySelectorAll('.offer__slide'),
-			currentSlide				= document.querySelector('#current'),
-			totalSlides					= document.querySelector('#total'),
-			sliderInner					= document.querySelector('.offer__slider-inner'),
-			sliderWrapper				= document.querySelector('.offer__slider-wrapper'),
+	const sliderAll					= document.querySelector(slider),
+			prevButton					= document.querySelector(prevBtn),
+			nextButton					= document.querySelector(nextBtn),
+			slides						= document.querySelectorAll(allSlide),
+			currentSlide				= document.querySelector(currentCounter),
+			totalSlides					= document.querySelector(totalCounter),
+			sliderInner					= document.querySelector(inner),
+			sliderWrapper				= document.querySelector(wrapper),
 			width							= window.getComputedStyle(sliderWrapper).width;
 
 	let slideIndex						= 1,
@@ -163,4 +163,4 @@ function slider() {
 	});
 }
 
-module.exports = slider;
+export default slider;
