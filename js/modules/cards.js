@@ -1,4 +1,6 @@
-function cards(getResurses) {
+import {getResurses} from '../services/dataserver';
+
+function cards() {
 	// CLASS
 
 	class MenuItem{

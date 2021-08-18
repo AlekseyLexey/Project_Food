@@ -6,17 +6,16 @@ import forms from './modules/forms';
 import slider from './modules/slider';
 import calc from './modules/calc';
 import {modalOpen} from './modules/modals';
-import {processingPostData, getResurses} from './services/dataserver';
 
 document.addEventListener('DOMContentLoaded', ()=> {
 
 	const modalSetTime				= setTimeout(()=> modalOpen('.modal', modalSetTime), 5000);
 
-	tabs('.tabheader__item', '.tabcontent', '.tabheader__items');
+	tabs('.tabheader__item', '.tabcontent', '.tabheader__items', 'tabheader__item_active');
 	timer('.timer', '2021-09-01');
 	modals('[data-modal]', '.modal', modalSetTime);
-	cards(getResurses);
-	forms(modalSetTime, processingPostData);
+	cards();
+	forms(modalSetTime, 'form');
 	slider({
 		slider: '.offer__slider',
 		nextBtn: '.offer__slider-next',

@@ -1,9 +1,10 @@
 import {modalOpen, modalClose} from './modals';
+import {processingPostData} from '../services/dataserver';
 
-function forms(modalSetTime, processingPostData) {
+function forms(modalSetTime, formSelector) {
 	// Forms
 
-	const forms								= document.querySelectorAll('form'),
+	const forms								= document.querySelectorAll(formSelector),
 			message							= {
 		loading: 'img/form/spinner.svg',
 		success: 'Спасибо! Наша команда скоро свяжется с вами!',
